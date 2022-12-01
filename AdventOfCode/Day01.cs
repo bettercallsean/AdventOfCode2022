@@ -3,7 +3,7 @@
 public class Day01 : BaseDay
 {
     private readonly string[] _input;
-    private readonly List<int> _caloryCount = new List<int>();
+    private readonly List<int> _caloryCount = new();
 
     public Day01()
     {
@@ -26,8 +26,8 @@ public class Day01 : BaseDay
         }
 
         _caloryCount.Sort();
-        return new(_caloryCount[_caloryCount.Count - 1].ToString());
+        return new(_caloryCount[^1].ToString());
     }
 
-    public override ValueTask<string> Solve_2() => new((_caloryCount[_caloryCount.Count - 1] + _caloryCount[_caloryCount.Count - 2] + _caloryCount[_caloryCount.Count - 3]).ToString());
+    public override ValueTask<string> Solve_2() => new((_caloryCount[^1] + _caloryCount[^2] + _caloryCount[^3]).ToString());
 }
