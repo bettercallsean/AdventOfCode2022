@@ -6,7 +6,7 @@ public class Day02 : BaseDay
     private const int Paper = 2;
     private const int Scissors = 3;
 
-    private readonly List<int[]> _input;
+    private readonly int[][] _input;
     private readonly Dictionary<int, int> _moveToWin = new Dictionary<int, int>
     {
         { Scissors, Rock },
@@ -37,7 +37,7 @@ public class Day02 : BaseDay
                             .Select(char.Parse)
                             .Select(y => charToGameMove[y])
                             .ToArray())
-                .ToList();
+                .ToArray();
     }
 
     public override ValueTask<string> Solve_1()
