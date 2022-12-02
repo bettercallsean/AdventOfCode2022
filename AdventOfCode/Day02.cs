@@ -7,18 +7,6 @@ public class Day02 : BaseDay
     private const int Scissors = 3;
 
     private readonly int[][] _input;
-    private readonly Dictionary<int, int> _moveToWin = new Dictionary<int, int>
-    {
-        { Scissors, Rock },
-        { Rock, Paper },
-        { Paper, Scissors }
-    };
-    private readonly Dictionary<int, int> _moveToLose = new Dictionary<int, int>
-    {
-        { Paper, Rock },
-        { Scissors, Paper },
-        { Rock, Scissors }
-    };
 
     public Day02()
     {
@@ -42,10 +30,18 @@ public class Day02 : BaseDay
 
     public override ValueTask<string> Solve_1()
     {
+        var winningMove = new Dictionary<int, int>
+        {
+            { Rock, Scissors },
+            { Paper, Rock },
+            { Scissors, Paper }
+        };
+
         var score = 0;
+
         foreach (var move in _input)
         {
-            if (move[0] == _moveToWin[move[1]])
+            if (move[0] == winningMove[move[1]])
             {
                 score += 6;
             }
@@ -65,6 +61,20 @@ public class Day02 : BaseDay
         const int Lose = 1;
         const int Win = 3;
 
+        var moveToWin = new Dictionary<int, int>
+        {
+            { Scissors, Rock },
+            { Rock, Paper },
+            { Paper, Scissors }
+        };
+
+        var moveToLose = new Dictionary<int, int>
+        {
+            { Paper, Rock },
+            { Scissors, Paper },
+            { Rock, Scissors }
+        };
+
         var score = 0;
         foreach (var move in _input)
         {
@@ -72,11 +82,11 @@ public class Day02 : BaseDay
             if (gameOutcome == Win)
             {
                 score += 6;
-                score += _moveToWin[move[0]];
+                score += moveToWin[move[0]];
             }
             else if (gameOutcome == Lose)
             {
-                score += _moveToLose[move[0]];
+                score += moveToLose[move[0]];
             }
             else
             {
