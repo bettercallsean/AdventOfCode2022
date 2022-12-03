@@ -14,8 +14,8 @@ public class Day03 : BaseDay
         var score = 0;
         foreach (var rucksack in _input)
         {
-            var compartment1 = rucksack.Substring(0, rucksack.Length / 2);
-            var compartment2 = rucksack.Substring(rucksack.Length / 2);
+            var compartment1 = rucksack[..(rucksack.Length / 2)];
+            var compartment2 = rucksack[(rucksack.Length / 2)..];
 
             var commonCharacter = compartment1.Intersect(compartment2).FirstOrDefault();
 
