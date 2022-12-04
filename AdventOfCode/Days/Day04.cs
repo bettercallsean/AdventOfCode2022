@@ -34,10 +34,10 @@ public class Day04 : BaseDay
         var overlapCount = 0;
         foreach (var sectionPairs in _input)
         {
-            var firstRange = string.Join(",", Enumerable.Range(sectionPairs[0], sectionPairs[1] - sectionPairs[0] + 1).Select(x => x.ToString().PadLeft(2, '0')));
-            var secondRange = string.Join(",", Enumerable.Range(sectionPairs[2], sectionPairs[3] - sectionPairs[2] + 1).Select(x => x.ToString().PadLeft(2, '0')));
+            var firstRange = Enumerable.Range(sectionPairs[0], sectionPairs[1] - sectionPairs[0] + 1).ToArray();
+            var secondRange = Enumerable.Range(sectionPairs[2], sectionPairs[3] - sectionPairs[2] + 1).ToArray();
 
-            foreach (var number in firstRange.Split(","))
+            foreach (var number in firstRange)
             {
                 if (secondRange.Contains(number))
                 {
