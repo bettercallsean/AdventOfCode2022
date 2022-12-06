@@ -25,18 +25,29 @@ public class Day06 : BaseDay
     private int FindPacketSize(int packetSize)
     {
         int iteration;
+        var characters = new Dictionary<char, int>();
         for (iteration = 0; iteration < _input.Length; iteration++)
         {
-            var packet = _input[iteration..(iteration + packetSize)];
+            var character = _input[iteration];
+            if (!characters.ContainsKey(character))
+            {
+                characters.Add(character, iteration);
+            }
+            else
+            {
+                var lastKnownIndex = characters[character];
 
-            var distinctPacketCharacters = packet.Distinct();
+                characters.Clear();
 
-            if (distinctPacketCharacters.Count() == packetSize)
+                iteration = lastKnownIndex;
+            }
+
+            if (characters.Count() == packetSize)
             {
                 break;
             }
         }
 
-        return iteration + packetSize;
+        return iteration + 1;
     }
 }
