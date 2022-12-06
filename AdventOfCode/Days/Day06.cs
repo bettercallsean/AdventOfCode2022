@@ -42,7 +42,7 @@ public class Day06 : BaseDay
                 iteration = lastKnownIndex;
             }
 
-            if (characters.Count() == packetSize)
+            if (characters.Count == packetSize)
             {
                 break;
             }
