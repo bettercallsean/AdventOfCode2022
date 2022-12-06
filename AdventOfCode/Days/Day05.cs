@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace AdventOfCode.Days;
 
@@ -75,7 +74,7 @@ public class Day05 : BaseDay
     private List<Stack<char>> CreateCrates(List<string> stacks)
     {
         var crates = new List<Stack<char>>();
-        for (int i = 0; i < _stackWidth; i++)
+        for (var i = 0; i < _stackWidth; i++)
         {
             crates.Add(new Stack<char>());
         }
@@ -83,13 +82,13 @@ public class Day05 : BaseDay
         foreach (var row in stacks)
         {
             var stringBuilder = new StringBuilder();
-            for (int i = 1; i < row.Length; i += 4)
+            for (var i = 1; i < row.Length; i += 4)
             {
                 stringBuilder.Append(row[i]);
             }
 
             var rowCharacters = stringBuilder.ToString();
-            for (int i = 0; i < rowCharacters.Length; i++)
+            for (var i = 0; i < rowCharacters.Length; i++)
             {
                 if (!char.IsWhiteSpace(rowCharacters[i]))
                 {
@@ -127,4 +126,3 @@ public class Day05 : BaseDay
             .ToArray();
     }
 }
-
