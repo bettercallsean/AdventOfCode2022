@@ -8,6 +8,7 @@ public class Day06 : BaseDay
     {
         _input = File.ReadAllText(InputFilePath);
     }
+
     public override ValueTask<string> Solve_1()
     {
         const int PacketSize = 4;
