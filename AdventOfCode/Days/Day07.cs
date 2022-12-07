@@ -3,42 +3,35 @@
 public class Day07 : BaseDay
 {
     private readonly string[] _input;
-    private readonly Directory _baseDirectory = new Directory
+    private readonly Directory _baseDirectory = new()
     {
         DirectoryName = "/",
     };
     private readonly List<long> _directorySizes = new List<long>();
-    private readonly Dictionary<string, Directory> _directories = new Dictionary<string, Directory>();
 
     public Day07()
     {
         _input = File.ReadAllLines(InputFilePath).Select(x => x.Replace("$ ", "")).ToArray();
-
-        //_directories.Add("/", );
     }
 
     public override ValueTask<string> Solve_1()
     {
         var lsExecuted = false;
         var currentDirectory = _baseDirectory;
-        var directorySizes = new List<long>();
-        var iteration = 1;
+
         foreach (var command in _input.Skip(1))
         {
-            iteration++;
-
             if (command[..2] == "cd")
             {
                 lsExecuted = false;
 
                 if (command[3..] == "..")
                 {
-                    directorySizes.Add(currentDirectory.TotalDirectorySize);
+                    _directorySizes.Add(currentDirectory.TotalDirectorySize);
                     currentDirectory = currentDirectory.ParentDirectory;
                 }
                 else
                 {
-                    //currentDirectory = _directories[$"{currentDirectory.DirectoryName}_{command[3..]}"];
                     currentDirectory = currentDirectory.Directories.Where(x => x.DirectoryName == command[3..]).FirstOrDefault();
                 }
 
@@ -63,11 +56,6 @@ public class Day07 : BaseDay
                     };
 
                     currentDirectory.Directories.Add(newDirectory);
-
-                    if (!_directories.ContainsKey($"{currentDirectory.DirectoryName}_{newDirectory.DirectoryName}"))
-                    {
-                        _directories.Add($"{currentDirectory.DirectoryName}_{newDirectory.DirectoryName}", newDirectory);
-                    }
                 }
                 else
                 {
@@ -83,10 +71,7 @@ public class Day07 : BaseDay
             }
         }
 
-        FindDirectorySizes(_baseDirectory);
-        _directorySizes.Sort();
-
-        var total = directorySizes.Where(x => x <= 100000).Sum();
+        var total = _directorySizes.Where(x => x <= 100000).Sum();
 
         return new(total.ToString());
     }
@@ -98,15 +83,6 @@ public class Day07 : BaseDay
         var directorySize = _directorySizes.Where(x => x >= spaceNeededToFree).First();
 
         return new(directorySize.ToString());
-    }
-
-    private void FindDirectorySizes(Directory directory)
-    {
-        foreach (var dir in directory.Directories)
-        {
-            _directorySizes.Add(dir.TotalDirectorySize);
-            FindDirectorySizes(dir);
-        }
     }
 }
 
