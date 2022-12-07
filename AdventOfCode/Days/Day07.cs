@@ -93,11 +93,11 @@ public class Day07 : BaseDay
 public class Directory
 {
     public string DirectoryName { get; set; }
+    public Directory ParentDirectory { get; set; }
     public List<DirectoryFile> Files { get; set; } = new List<DirectoryFile>();
+    public Dictionary<string, Directory> Directories { get; set; } = new Dictionary<string, Directory>();
     public long TotalFileSize => Files.Sum(f => f.FileSize);
     public long TotalDirectorySize => TotalFileSize + Directories.Sum(x => x.Value.TotalDirectorySize);
-    public Directory ParentDirectory { get; set; }
-    public Dictionary<string, Directory> Directories { get; set; } = new Dictionary<string, Directory>();
 }
 
 public class DirectoryFile
