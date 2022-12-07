@@ -3,11 +3,12 @@
 public class Day07 : BaseDay
 {
     private readonly string[] _input;
+    private readonly List<long> _directorySizes = new List<long>();
     private readonly Directory _baseDirectory = new()
     {
         DirectoryName = "/",
     };
-    private readonly List<long> _directorySizes = new List<long>();
+
 
     public Day07()
     {
@@ -32,7 +33,7 @@ public class Day07 : BaseDay
                 }
                 else
                 {
-                    currentDirectory = currentDirectory.Directories.Where(x => x.DirectoryName == command[3..]).FirstOrDefault();
+                    currentDirectory = currentDirectory.Directories[command[3..]];
                 }
 
                 continue;
@@ -55,7 +56,7 @@ public class Day07 : BaseDay
                         ParentDirectory = currentDirectory,
                     };
 
-                    currentDirectory.Directories.Add(newDirectory);
+                    currentDirectory.Directories.Add(newDirectory.DirectoryName, newDirectory);
                 }
                 else
                 {
@@ -71,6 +72,9 @@ public class Day07 : BaseDay
             }
         }
 
+        _directorySizes.Add(currentDirectory.TotalDirectorySize);
+
+        _directorySizes.Sort();
         var total = _directorySizes.Where(x => x <= 100000).Sum();
 
         return new(total.ToString());
@@ -91,9 +95,9 @@ public class Directory
     public string DirectoryName { get; set; }
     public List<DirectoryFile> Files { get; set; } = new List<DirectoryFile>();
     public long TotalFileSize => Files.Sum(f => f.FileSize);
-    public long TotalDirectorySize => TotalFileSize + Directories.Sum(x => x.TotalDirectorySize);
+    public long TotalDirectorySize => TotalFileSize + Directories.Sum(x => x.Value.TotalDirectorySize);
     public Directory ParentDirectory { get; set; }
-    public List<Directory> Directories { get; set; } = new List<Directory>();
+    public Dictionary<string, Directory> Directories { get; set; } = new Dictionary<string, Directory>();
 }
 
 public class DirectoryFile
