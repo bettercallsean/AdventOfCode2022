@@ -20,10 +20,9 @@ internal class Day08 : BaseDay
             for (var j = 0; j < _input[0].Length; j++)
             {
                 var treeVisible = i == 0 || j == 0 || i == _input.Length - 1 || j == _input[0].Length - 1;
-
-                // Up
                 var up = i;
-                while (!treeVisible && ArrayHelper.IsValidCoordinate(up, j, _input))
+
+                while (!treeVisible && ArrayHelper.IsValidCoordinate(up - 1, j, _input))
                 {
                     up--;
                     if (_input[up][j] < _input[i][j])
@@ -40,10 +39,9 @@ internal class Day08 : BaseDay
                     }
                 }
 
-                // Left
                 var left = j;
 
-                while (!treeVisible && ArrayHelper.IsValidCoordinate(i, left, _input))
+                while (!treeVisible && ArrayHelper.IsValidCoordinate(i, left - 1, _input))
                 {
                     left--;
                     if (_input[i][left] < _input[i][j])
@@ -61,7 +59,6 @@ internal class Day08 : BaseDay
 
                 }
 
-                // Right
                 var right = j;
 
                 while (!treeVisible && ArrayHelper.IsValidCoordinate(i, right + 1, _input))
@@ -82,7 +79,6 @@ internal class Day08 : BaseDay
 
                 }
 
-                // Down
                 var down = i;
 
                 while (!treeVisible && ArrayHelper.IsValidCoordinate(down + 1, j, _input))
@@ -120,8 +116,6 @@ internal class Day08 : BaseDay
             for (var j = 0; j < _input[0].Length; j++)
             {
                 var scoreArray = new int[4];
-
-                // Up
                 var up = i;
 
                 while (ArrayHelper.IsValidCoordinate(up - 1, j, _input))
@@ -143,7 +137,6 @@ internal class Day08 : BaseDay
 
                 scoreArray[0] = Math.Abs(i - up);
 
-                // Left
                 var left = j;
 
                 while (ArrayHelper.IsValidCoordinate(i, left - 1, _input))
@@ -165,7 +158,6 @@ internal class Day08 : BaseDay
 
                 scoreArray[1] = Math.Abs(j - left);
 
-                // Right
                 var right = j;
 
                 while (ArrayHelper.IsValidCoordinate(i, right + 1, _input))
@@ -186,8 +178,6 @@ internal class Day08 : BaseDay
 
                 scoreArray[2] = Math.Abs(j - right);
 
-
-                // Down
                 var down = i;
 
                 while (ArrayHelper.IsValidCoordinate(down + 1, j, _input))
