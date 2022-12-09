@@ -30,7 +30,6 @@ internal class Day08 : BaseDay
                         if (up == 0)
                         {
                             treeVisible = true;
-                            break;
                         }
                     }
                     else
@@ -49,7 +48,6 @@ internal class Day08 : BaseDay
                         if (left == 0)
                         {
                             treeVisible = true;
-                            break;
                         }
                     }
                     else
@@ -69,7 +67,6 @@ internal class Day08 : BaseDay
                         if (right == _input[0].Length - 1)
                         {
                             treeVisible = true;
-                            break;
                         }
                     }
                     else
@@ -89,7 +86,6 @@ internal class Day08 : BaseDay
                         if (down == _input.Length - 1)
                         {
                             treeVisible = true;
-                            break;
                         }
                     }
                     else
