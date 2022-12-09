@@ -5,7 +5,7 @@ namespace AdventOfCode.Days;
 public class Day09 : BaseDay
 {
     private readonly List<(string Direction, int Steps)> _input = new();
-    private readonly Dictionary<Point, int> _tailLocations = new Dictionary<Point, int>()
+    private readonly Dictionary<Point, int> _tailLocations = new()
         {
             { new Point { X = 0, Y = 0 }, 1 }
         };
@@ -71,8 +71,6 @@ public class Day09 : BaseDay
 
             while (steps > 0)
             {
-                var head = ropePoints[0];
-
                 switch (instruction.Direction)
                 {
                     case "R":
@@ -134,15 +132,6 @@ public class Day09 : BaseDay
 
     private bool IsTailTouchingHead(Point head, Point tail)
     {
-        for (var x = tail.X - 1; x <= tail.X + 1; x++)
-        {
-            for (var y = tail.Y - 1; y <= tail.Y + 1; y++)
-            {
-                if (x == head.X && y == head.Y)
-                    return true;
-            }
-        }
-
-        return false;
+        return Math.Abs(head.X - tail.X) <= 1 && Math.Abs(head.Y - tail.Y) <= 1;
     }
 }
