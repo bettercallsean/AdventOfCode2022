@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode", "AdventOfCod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FBE09BBA-34E4-4DED-94F2-44217330E37F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCodeUtilities", "AdventOfCodeUtilities\AdventOfCodeUtilities.csproj", "{6D55D83C-D4B9-49CA-8B96-3722EDEF9801}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Utilities", "AdventOfCode.Utilities\AdventOfCode.Utilities.csproj", "{6D55D83C-D4B9-49CA-8B96-3722EDEF9801}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
