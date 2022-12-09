@@ -5,9 +5,9 @@ namespace AdventOfCode.Days;
 public class Day09 : BaseDay
 {
     private readonly List<(string Direction, int Steps)> _input = new();
-    private readonly Dictionary<Point, int> _tailLocations = new()
+    private readonly HashSet<Point> _tailLocations = new()
         {
-            { new Point { X = 0, Y = 0 }, 1 }
+            new Point { X = 0, Y = 0 }
         };
 
     public Day09()
@@ -47,9 +47,9 @@ public class Day09 : BaseDay
 
                 tail = MovePoint(head, tail);
 
-                if (!_tailLocations.ContainsKey(tail))
+                if (!_tailLocations.Contains(tail))
                 {
-                    _tailLocations.Add(tail, 1);
+                    _tailLocations.Add(tail);
                 }
 
                 steps--;
@@ -94,9 +94,9 @@ public class Day09 : BaseDay
                     if (i == ropePoints.Length - 1)
                     {
                         var tail = ropePoints[i];
-                        if (!_tailLocations.ContainsKey(tail))
+                        if (!_tailLocations.Contains(tail))
                         {
-                            _tailLocations.Add(tail, 1);
+                            _tailLocations.Add(tail);
                         }
                     }
                 }
