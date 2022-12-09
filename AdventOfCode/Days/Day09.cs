@@ -5,10 +5,7 @@ namespace AdventOfCode.Days;
 public class Day09 : BaseDay
 {
     private readonly List<(string Direction, int Steps)> _input = new();
-    private readonly HashSet<Point> _tailLocations = new()
-        {
-            new Point { X = 0, Y = 0 }
-        };
+    private readonly HashSet<Point> _tailLocations = new();
 
     public Day09()
     {
