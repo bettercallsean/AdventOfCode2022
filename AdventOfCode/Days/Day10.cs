@@ -121,7 +121,7 @@ public class Day10 : BaseDay
     {
         pixelPosition -= (40 * crtRow);
 
-        crt[crtRow][pixelPosition] = spritePosition == pixelPosition || spritePosition + 1 == pixelPosition || spritePosition + 2 == pixelPosition ? '#' : '.';
+        crt[crtRow][pixelPosition] = spritePosition == pixelPosition || spritePosition + 1 == pixelPosition || spritePosition + 2 == pixelPosition ? '█' : ' ';
 
         return crt;
     }
