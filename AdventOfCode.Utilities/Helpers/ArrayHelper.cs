@@ -22,6 +22,24 @@
             Console.WriteLine();
         }
 
+        public static void ArrayPrinter<T>(T[,] array)
+        {
+            var row = array.GetLength(0);
+            var col = array.GetLength(1);
+
+            for (var i = 0; i < row; i++)
+            {
+                for (var j = 0; j < col; j++)
+                {
+                    Console.Write(array[i, j]);
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
+        }
+
         public static bool ArraysAreTheSame<T>(T[][] arr1, T[][] arr2) where T : IComparable<T>
         {
             var row = arr1.Length;
