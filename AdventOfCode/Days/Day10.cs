@@ -21,13 +21,12 @@ public class Day10 : BaseDay
     {
         var register = 1;
         var signalStrength = 0;
-        var totalCycles = _cycles;
         var cycle = 0;
         var cycleToCheckAt = 20;
         var instructionIndex = 0;
 
         var addXExecuted = false;
-        while (cycle < totalCycles)
+        while (cycle < _cycles)
         {
             cycle++;
 
@@ -63,13 +62,12 @@ public class Day10 : BaseDay
     public override ValueTask<string> Solve_2()
     {
         var register = 1;
-        var totalCycles = _cycles;
         var cycle = 0;
         var cycleToCheckAt = 40;
         var instructionIndex = 0;
         var crtRow = 0;
         var pixelPosition = 0;
-        var crt = new char[6][]
+        var crt = new[]
         {
             new char[40],
             new char[40],
@@ -80,7 +78,7 @@ public class Day10 : BaseDay
         };
 
         var addXExecuted = false;
-        while (cycle < totalCycles)
+        while (cycle < _cycles)
         {
             cycle++;
 
@@ -114,7 +112,7 @@ public class Day10 : BaseDay
         }
 
         ArrayHelper.ArrayPrinter(crt);
-        return new("Check Console Output".ToString());
+        return new("Check Console Output");
     }
 
     private char[][] UpdateCrt(char[][] crt, int spritePosition, int pixelPosition, int crtRow)
