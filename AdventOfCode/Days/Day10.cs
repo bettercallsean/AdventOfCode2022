@@ -114,7 +114,7 @@ public class Day10 : BaseDay
         }
 
         ArrayHelper.ArrayPrinter(crt);
-        return new(1.ToString());
+        return new("Check Console Output".ToString());
     }
 
     private char[][] UpdateCrt(char[][] crt, int spritePosition, int pixelPosition, int crtRow)
