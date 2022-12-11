@@ -2,7 +2,6 @@ namespace AdventOfCode.Days;
 
 public class Day11 : BaseDay
 {
-    private readonly Dictionary<int, Monkey> _monkeys = new();
     private readonly List<Monkey> _input = new();
     private int _supermodulo = 1;
 
@@ -34,11 +33,11 @@ public class Day11 : BaseDay
 
                     if (monkey.Test(worryLevel))
                     {
-                        _monkeys[monkey.TrueMonkey].Items.Enqueue(worryLevel);
+                        _input[monkey.TrueMonkey].Items.Enqueue(worryLevel);
                     }
                     else
                     {
-                        _monkeys[monkey.FalseMonkey].Items.Enqueue(worryLevel);
+                        _input[monkey.FalseMonkey].Items.Enqueue(worryLevel);
                     }
                 }
             }
@@ -70,11 +69,11 @@ public class Day11 : BaseDay
                     
                     if (monkey.Test(worryLevel))
                     {
-                        _monkeys[monkey.TrueMonkey].Items.Enqueue(worryLevel);
+                        _input[monkey.TrueMonkey].Items.Enqueue(worryLevel);
                     }
                     else
                     {
-                        _monkeys[monkey.FalseMonkey].Items.Enqueue(worryLevel);
+                        _input[monkey.FalseMonkey].Items.Enqueue(worryLevel);
                     }
                 }
             }
@@ -89,10 +88,8 @@ public class Day11 : BaseDay
 
     private void CreateMonkeys(string[][] monkeyData)
     {
-        for (var i = 0; i < monkeyData.Length; i++)
+        foreach (var data in monkeyData)
         {
-            var data = monkeyData[i];
-            
             var items = new Queue<long>();
             foreach (var item in data[1][15..].Split(", ").Select(long.Parse))
             {
@@ -127,7 +124,6 @@ public class Day11 : BaseDay
             };
             
             _input.Add(monkey);
-            _monkeys.Add(i, monkey);
         }
     }
 
