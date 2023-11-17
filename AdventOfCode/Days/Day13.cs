@@ -1,34 +1,34 @@
-using System.Text;
-using AdventOfCode.Utilities.Helpers;
+using System.Diagnostics;
 
 namespace AdventOfCode.Days;
 
 public class Day13 : BaseDay
 {
-    private readonly string[] _input;
+    private readonly List<string[]> _input;
+
     public Day13()
     {
-        _input = File.ReadAllLines(InputFilePath);
-
+        _input = File.ReadAllText(InputFilePath).TrimEnd().Split("\n\n").Select(x => x.Split()).ToList();
     }
+
     public override ValueTask<string> Solve_1()
     {
-        var bracketPairs = 1;
+        var index = 1;
         var total = 0;
-        for (var i = 0; i < _input.Length; i+=3)
+        foreach (var item in _input)
         {
-            var correctPairs = AreBracketsInOrder(_input[i][1..^1].ToCharArray(), _input[i + 1][1..^1].ToCharArray());
+            var left = ProcessPacketBrackets(item[0].ToCharArray());
+            var right = ProcessPacketBrackets(item[1].ToCharArray());
 
-            if (correctPairs == 1)
-                total += bracketPairs;
+            var ordered = ArePacketsInOrder(left, right);
 
-            bracketPairs++;
+            if (ordered == -1)
+                total += index;
+
+            index++;
         }
-        
-        // Incorrect values - too low
-        // 5854
-        // 5977
-        return new(total.ToString());
+
+        return new ValueTask<string>(total.ToString());
     }
 
     public override ValueTask<string> Solve_2()
@@ -36,126 +36,78 @@ public class Day13 : BaseDay
         throw new NotImplementedException();
     }
 
-    // private static Dictionary<int, int> ProcessPacketBrackets(char[] packet)
-    // {
-    //     var foo = packet.ToList();
-    //     var openingBrackets = new Stack<int>();
-    //     var bracketPairs = new Dictionary<int, int>();
-    //
-    //     for (var i = 0; i < packet.Length; i++)
-    //     {
-    //         switch (packet[i])
-    //         {
-    //             case '[':
-    //                 openingBrackets.Push(i);
-    //                 break;
-    //             case ']':
-    //             {
-    //                 var openingBracket = openingBrackets.Pop();
-    //                 bracketPairs.Add(openingBracket, i);
-    //                 Console.WriteLine(packet[(openingBracket + 1)..i]);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //
-    //     return bracketPairs;
-    // }
-    
-    private static List<string> ProcessPacketBrackets(char[] packet)
+    private int ArePacketsInOrder(List<string> left, List<string> right)
     {
-        var bracketPairs = new List<string>();
-    
-        for (var i = 0; i < packet.Length; i++)
+        var i = 0;
+        for (; i < right.Count; i++)
         {
-            if (int.TryParse(packet[i].ToString(), out var num))
-                bracketPairs.Add(packet[i].ToString());
-            
-            else if (packet[i] == '[')
-            {
-                var closingBracketIndex = ClosingBracketFinder(packet, i);
-                
-                bracketPairs.Add(new string(packet[i..(closingBracketIndex + 1)]));
+            var ordered = 0;
+            if (i == left.Count)
+                return -1;
 
-                i = closingBracketIndex;
+            if (int.TryParse(left[i], out var x))
+            {
+                if (int.TryParse(right[i], out var y))
+                {
+                    if (x < y)
+                        return -1;
+                    else if (x > y)
+                        return 1;
+                }
+                else
+                {
+                    var rightTmp = ProcessPacketBrackets(right[i].ToCharArray());
+
+                    ordered = ArePacketsInOrder(new List<string> { left[i] }, rightTmp);
+                }
             }
-        }
-        
-        return bracketPairs;
-    }
-
-    private int AreBracketsInOrder(char[] leftPacket, char[] rightPacket)
-    {
-        var firstPacket = ProcessPacketBrackets(leftPacket);
-        var secondPacket = ProcessPacketBrackets(rightPacket);
-
-        if (firstPacket.Count == 0 && secondPacket.Count >= 0)
-        {
-            if(secondPacket.Count > 0)
-                return 1;
-
-            return -1;
-        }
-        
-        for (var j = 0; j < firstPacket.Count; j++)
-        {
-            if (j >= secondPacket.Count)
-                return 0;
-            
-            var left = firstPacket[j];
-            var right = secondPacket[j];
-
-            var leftIsInt = int.TryParse(left, out var leftValue);
-            var rightIsInt = int.TryParse(right, out var rightValue);
-            var valuesAreEqual = false;
-
-            if (leftIsInt && rightIsInt)
+            else if (int.TryParse(right[i], out _))
             {
-                if (leftValue < rightValue)
-                    return 1;
+                var leftTmp = ProcessPacketBrackets(left[i].ToCharArray());
 
-                if (leftValue > rightValue)
-                    return 0;
-                
-                valuesAreEqual = true;
-            }
-
-            if (valuesAreEqual)
-            {
-                if (j == firstPacket.Count - 1)
-                    return 1;
-                
-                continue;
-            }
-
-            int bracketOrder;
-            if (leftIsInt)
-            {
-                bracketOrder = AreBracketsInOrder(new[] { char.Parse(left) }, right[1..^1].ToCharArray());
-            }
-
-            else if (rightIsInt)
-            {
-                bracketOrder = AreBracketsInOrder(left[1..^1].ToCharArray(), new[] { char.Parse(right) });
- 
+                ordered = ArePacketsInOrder(leftTmp, new List<string> { right[i] });
             }
             else
             {
-                bracketOrder = AreBracketsInOrder(left[1..^1].ToCharArray(), right[1..^1].ToCharArray());
+                var leftTmp = ProcessPacketBrackets(left[i].ToCharArray());
+                var rightTmp = ProcessPacketBrackets(right[i].ToCharArray());
+
+                ordered = ArePacketsInOrder(leftTmp, rightTmp);
             }
 
-            if (bracketOrder == -1)
-            {
-                if (j == firstPacket.Count - 1)
-                    return 1;
-                
-                continue;
-            };
-            
-            return bracketOrder;
+            if (ordered != 0)
+                return ordered;
         }
 
-        return -1;
+        return right.Count < left.Count ? 1 : 0;
+    }
+
+    private static List<string> ProcessPacketBrackets(char[] packet)
+    {
+        packet = packet[1..^1];
+        var bracketPairs = new List<string>();
+
+        for (var i = 0; i < packet.Length; i++)
+        {
+            if (int.TryParse(packet[i].ToString(), out var num))
+            {
+                if (i + 1 < packet.Length && packet[i + 1] != ',')
+                    bracketPairs.Add(packet[i].ToString() + packet[i].ToString());
+                else
+                    bracketPairs.Add(packet[i].ToString());
+
+            }
+
+            else if (packet[i] == '[')
+            {
+                var closingBracketIndex = ClosingBracketFinder(packet, i);
+
+                bracketPairs.Add(new string(packet[i..(closingBracketIndex + 1)]));
+                i = closingBracketIndex;
+            }
+        }
+
+        return bracketPairs;
     }
 
     private static int ClosingBracketFinder(IReadOnlyList<char> packet, int openingBracketIndex)
@@ -180,10 +132,4 @@ public class Day13 : BaseDay
 
         return -1;
     }
-}
-
-public record Packet
-{
-    public int? Value { get; set; }
-    public List<Packet> InnerPackets { get; set; } = new();
 }
