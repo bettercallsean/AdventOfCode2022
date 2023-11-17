@@ -33,7 +33,48 @@ public class Day13 : BaseDay
 
     public override ValueTask<string> Solve_2()
     {
-        throw new NotImplementedException();
+        var orderedList = new List<string>
+        {
+            "[[2]]",
+            "[[6]]"
+        };
+
+        orderedList.AddRange(_input.SelectMany(x => x));
+
+        var packetArray = OrderPacketList(orderedList.ToArray());
+
+        orderedList = packetArray.ToList();
+
+        var firstIndex = orderedList.FindIndex(x => x.Equals("[[2]]"));
+        var secondIndex = orderedList.FindIndex(x => x.Equals("[[6]]"));
+
+        return new ValueTask<string>(((firstIndex + 1) * (secondIndex + 1)).ToString());
+    }
+
+    private string[] OrderPacketList(string[] packetList)
+    {
+        for (var i = 0; i < packetList.Length - 1; i++)
+        {
+            var swapped = false;
+            for (var j = 0; j < packetList.Length - 1; j++)
+            {
+                var left = ProcessPacketBrackets(packetList[j].ToCharArray());
+                var right = ProcessPacketBrackets(packetList[j + 1].ToCharArray());
+
+                var ordered = ArePacketsInOrder(left, right);
+
+                if (ordered == 1)
+                {
+                    (packetList[j], packetList[j + 1]) = (packetList[j + 1], packetList[j]);
+                    swapped = true;
+                }
+            }
+
+            if (swapped == false)
+                break;
+        }
+
+        return packetList;
     }
 
     private int ArePacketsInOrder(List<string> left, List<string> right)
