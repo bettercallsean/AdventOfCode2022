@@ -23,7 +23,7 @@ public partial class Day15 : BaseDay
     public override ValueTask<string> Solve_1()
     {
         const int YValue = 2000000;
-        var distanceCovered = new HashSet<int>();
+        var lines = new List<int>();
 
         foreach (var sensorAndBeacon in _input)
         {
@@ -37,12 +37,14 @@ public partial class Day15 : BaseDay
                 var rightX = sensorAndBeacon[0].Item1 + manhatanDistance - distanceAwayFromSensor;
                 var leftX = sensorAndBeacon[0].Item1 - manhatanDistance + distanceAwayFromSensor;
 
-                foreach (var xCoordinate in Enumerable.Range(leftX, rightX - leftX + 1))
-                    distanceCovered.Add(xCoordinate);
+                lines.Add(leftX);
+                lines.Add(rightX);
             }
         }
 
-        return new ValueTask<string>((distanceCovered.Count - 1).ToString());
+        lines.Sort();
+
+        return new ValueTask<string>((lines[^1] - lines[0]).ToString());
     }
 
     public override ValueTask<string> Solve_2()
