@@ -2,32 +2,20 @@
 
 public class Day01 : BaseDay
 {
-    private readonly string[] _input;
-    private readonly List<int> _caloryCount = new();
+    private readonly List<int> _input;
 
     public Day01()
     {
-        _input = File.ReadAllLines(InputFilePath);
+        _input = File.ReadAllText(InputFilePath)
+                    .TrimEnd()
+                    .Split("\n\n")
+                    .Select(x => x.Split().Select(int.Parse).Sum())
+                    .ToList();
+
+        _input.Sort();
     }
 
-    public override ValueTask<string> Solve_1()
-    {
-        var count = 0;
-        foreach (var caloryCount in _input)
-        {
-            if (string.IsNullOrWhiteSpace(caloryCount))
-            {
-                _caloryCount.Add(count);
-                count = 0;
-                continue;
-            }
+    public override ValueTask<string> Solve_1() => new(_input[^1].ToString());
 
-            count += int.Parse(caloryCount);
-        }
-
-        _caloryCount.Sort();
-        return new(_caloryCount[^1].ToString());
-    }
-
-    public override ValueTask<string> Solve_2() => new((_caloryCount[^1] + _caloryCount[^2] + _caloryCount[^3]).ToString());
+    public override ValueTask<string> Solve_2() => new((_input[^1] + _input[^2] + _input[^3]).ToString());
 }
