@@ -8,7 +8,7 @@ public class Day01 : BaseDay
     {
         _input = File.ReadAllText(InputFilePath)
                     .TrimEnd()
-                    .Split("\n\n")
+                    .Split(Environment.NewLine + Environment.NewLine)
                     .Select(x => x.Split().Select(int.Parse).Sum())
                     .ToList();
 
